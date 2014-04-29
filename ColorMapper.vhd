@@ -89,9 +89,9 @@ begin
 	begin
 		if (Bird_on = '1') then -- blue Bird
 
-			Red   <= "00" & RED_rom(flappy_bird(AnimationFrame, to_integer(DrawX) - 230, to_integer(DrawY - BirdY)));
-			Green <= "00" & GREEN_rom(flappy_bird(AnimationFrame, to_integer(DrawX) - 230, to_integer(DrawY - BirdY)));
-			Blue  <= "00" & BLUE_rom(flappy_bird(AnimationFrame, to_integer(DrawX) - 230, to_integer(DrawY - BirdY)));
+			Red   <= RED_rom(flappy_bird(AnimationFrame, to_integer(DrawX) - 230, to_integer(DrawY - BirdY))) & "00";
+			Green <= GREEN_rom(flappy_bird(AnimationFrame, to_integer(DrawX) - 230, to_integer(DrawY - BirdY))) & "00";
+			Blue  <= BLUE_rom(flappy_bird(AnimationFrame, to_integer(DrawX) - 230, to_integer(DrawY - BirdY))) & "00";
 			
 			--Red <= "0000000000";
 			--Green <= "0000000000";
@@ -103,14 +103,14 @@ begin
 				lel := 26;
 			end if;
 		
-			Red   <= "00" & RED_rom(pipespr(RealX - 340, lel));
-			Green <= "00" & GREEN_rom(pipespr(RealX - 340, lel));
-			Blue  <= "00" & BLUE_rom(pipespr(RealX - 340, lel));
+			Red   <= RED_rom(pipespr(RealX - 340, lel)) & "00";
+			Green <= GREEN_rom(pipespr(RealX - 340, lel)) & "00";
+			Blue  <=  BLUE_rom(pipespr(RealX - 340, lel)) & "00";
 			
 		else -- gradient background
-			Red <= "00" & RED_rom(pipespr(to_integer(DrawX) mod 51, to_integer(DrawY) mod 26));
-			Green <= "00" & GREEN_rom(pipespr(to_integer(DrawX) mod 51, to_integer(DrawY) mod 26));
-			Blue <= "00" & BLUE_rom(pipespr(to_integer(DrawX) mod 51, to_integer(DrawY) mod 26));
+			Red <= RED_rom(pipespr(to_integer(DrawX) mod 51, to_integer(DrawY) mod 26)) & "00";
+			Green <= GREEN_rom(pipespr(to_integer(DrawX) mod 51, to_integer(DrawY) mod 26)) & "00";
+			Blue <= BLUE_rom(pipespr(to_integer(DrawX) mod 51, to_integer(DrawY) mod 26)) & "00";
 		end if;
 	end process RGB_Display;
 end Behavioral;
