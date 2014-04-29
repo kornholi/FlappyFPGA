@@ -5,6 +5,7 @@
 
 library ieee;
 use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity FlappyFPGA is
     port(Clk : in std_logic;
@@ -59,9 +60,16 @@ architecture Behavioral of FlappyFPGA is
 		PORT(In0 : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
 			  Out0 : OUT STD_LOGIC_VECTOR(6 DOWNTO 0));
 	END COMPONENT;
+	
+	component LFSR
+		port(clk : in std_logic;
+			  reset : in std_logic;
+			  q : out std_logic_vector(7 downto 0));
+	end component;
 
 	signal Reset_h, Jump_h, vsSig: std_logic;
-	signal DrawXsig, DrawYsig, BirdYsig : std_logic_vector(9 downto 0);
+	signal DrawXsig, DrawYsig : std_logic_vector(9 downto 0);
+	signal BirdYsig : unsigned(9 downto 0);
 begin
 
 	-- The push buttons are active low

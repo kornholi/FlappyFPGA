@@ -53,5 +53,5 @@ begin
 		end if;
 	end process;
 
-	BirdY <= unsigned(Y_Pos, BirdY'length));
+	BirdY <= to_unsigned(Y_Pos, BirdY'length);
 end Behavioral;      
