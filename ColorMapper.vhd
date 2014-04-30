@@ -89,7 +89,6 @@ begin
 			if OffsetX >= 0 AND OffsetX < PipeWidth then
 				if (to_integer(DrawY) > PipeY(i) + PipeHeightSeparation) then
 					ClampedY := to_integer(DrawY) - PipeY(i) - PipeHeightSeparation;
-					end if;
 				elsif (to_integer(DrawY) < PipeY(i) - PipeHeightSeparation) then
 					ClampedY := PipeY(i) - to_integer(DrawY) - PipeHeightSeparation;
 				end if;
@@ -121,12 +120,12 @@ begin
 	begin
 		Collision <= '0';
 	
-		if BirdOn = '1' and PipeOn = true then
+		if BirdOn = true and PipeOn = true then
 			Red <= "1111111111";
 			Green <= "0000000000";
 			Blue <= "0000000000";
 			Collision <= '1';
-		elsif BirdOn = '1' then
+		elsif BirdOn = true then
 			Red   <= RED_rom(flappy_bird(AnimationFrame, to_integer(DrawX - BirdX), to_integer(DrawY - BirdY))) & "00";
 			Green <= GREEN_rom(flappy_bird(AnimationFrame, to_integer(DrawX - BirdX), to_integer(DrawY - BirdY))) & "00";
 			Blue  <= BLUE_rom(flappy_bird(AnimationFrame, to_integer(DrawX - BirdX), to_integer(DrawY - BirdY))) & "00";
