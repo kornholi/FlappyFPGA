@@ -24,7 +24,7 @@ architecture Behavioral of Bird is
 	constant Y_Center : integer := 240;
 
 	constant Y_Min    : integer := 0;
-	constant Y_Max    : integer := 479;
+	constant Y_Max    : integer := 479 - DirtHeight;
 	
 	constant JumpVelocity : integer := -13;
 	constant FallAcceleration : integer := 1;
@@ -76,9 +76,18 @@ begin
 						state <= ok;
 					end if;
 					
+					if Y_pos > Y_center + 7 then
+						Y_vel <= -2;
+					elsif Y_pos < Y_center - 7 or Y_vel = 0 then
+						Y_vel <= 2;
+					end if;
+					
 				when ok =>
 					if Collision = true then
 						Y_vel <= JumpVelocity;
+						state <= game_over;
+					-- Check for falling to the ground (don't jump as in collision)
+					elsif Y_pos + 23 + Y_vel > Y_max then
 						state <= game_over;
 					elsif CanJump = '0' and Jump = '0' then	
 						CanJump <= '1';
@@ -91,18 +100,31 @@ begin
 					
 				when game_over =>
 					Y_vel <= Y_vel + FallAcceleration;
-				
-					if Jump = '1' then
+					
+					-- Fall and stay and bottom
+					if (Y_pos + 23 + Y_vel > Y_max) then
+						Y_pos <= Y_max - 23;
+					else
+						Y_pos <= Y_pos + Y_vel / 2;
+					end if;
+					
+					if Y_pos + 23 + Y_vel > Y_max and Jump = '1' then
+						Y_vel <= 0;
+						Y_pos <= Y_Center;
+						CanJump <= '1';
+			
 						state <= start_screen;
 					end if;
 			end case;
 			
-			if (Y_pos + Y_vel < Y_min) then
-				Y_pos <= Y_min;
-			elsif (Y_pos + 23 + Y_vel > Y_max) then
-				Y_pos <= Y_max - 23;
-			else 
-				Y_pos <= Y_pos + Y_vel / 2;
+			if state = start_screen or state = ok then
+				if (Y_pos + Y_vel < Y_min) then
+					Y_pos <= Y_min;
+				elsif (Y_pos + 23 + Y_vel > Y_max) then
+					Y_pos <= Y_max - 23;
+				else 
+					Y_pos <= Y_pos + Y_vel / 2;
+				end if;
 			end if;
 		end if;
 	end process;

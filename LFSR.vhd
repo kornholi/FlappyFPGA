@@ -11,19 +11,18 @@ entity LFSR is
 end entity;
 
 architecture Behavioral of LFSR is
-	signal q_internal : std_logic_vector(7 downto 0);
+	
 	signal feedback : std_logic;
 begin
-	feedback <= not(q_internal(7) xor q_internal(3));
-
 	process (clk, reset)
+		variable q_internal : std_logic_vector(7 downto 0) := "10101101";
+		variable feedback : std_logic;
 	begin
-		if (reset = '1') then
-			q_internal <= "00000000";
-		elsif (rising_edge(clk)) then
-			q_internal <= q_internal(6 downto 0) & feedback;
+		if (rising_edge(clk)) then
+			feedback := not(q_internal(7) xor q_internal(3));
+			q_internal := q_internal(6 downto 0) & feedback;
 		end if;
+		
+		q <= q_internal;
 	end process;
-	
-	q <= q_internal;
 end architecture;
